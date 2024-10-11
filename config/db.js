@@ -25,6 +25,6 @@ const conectdb = async ()=>{
         process.exit(1)
     }
 }
-
+///////uyg8yhnoniyvighn
 module.exports = conectdb
 
