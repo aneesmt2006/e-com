@@ -1,0 +1,139 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="css/verify-otp.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+  />
+</head>
+<body>
+  <div class="container">
+    <h1>OTP Verification</h1>
+    <p>Enter the OTP you received to <span id="email"></span></p>
+    <div class="otp-input">
+      <form action="/verify-otp" method="post" onsubmit="return verifyOTPform()">
+        <input type="number" name="otp" min="0" max="9" required id="f1" />
+        <input type="number" name="otp" min="0" max="9" required id="f2" />
+        <input type="number" name="otp" min="0" max="9" required id="f3" />
+        <input type="number" name="otp" min="0" max="9" required id="f4" />
+      
+    </div>
+    <button type="submit">Verify</button>
+</form>
+    <div class="resend-text">
+      Didn't receive the code?
+      <span class="resend-link" onclick="resendOTP()">Resend Code</span>
+      <span id="timer"></span>
+    </div>
+  </div>
+  <script src="js/verify-otp.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function verifyOTPform() {
+      const otpElements = document.getElementsByName("otp");
+      const otpArray = Array.from(otpElements).map(input => input.value); // Collect values of each input
+      const otpValue = otpArray.join('');
+
+
+      $.ajax({
+        type: "POST",
+        url: "verify-otp",
+        data: { otp: otpValue },
+        success: function (response) {
+          if (response.success) {
+            Swal.fire({
+              icon: "success",
+              title: "OTP verfiied succesfully",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              window.location.href = response.redirectUrl;
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: response.message,
+            });
+          }
+        },
+        error: function () {
+          Swal.fire({
+            icon: "error",
+            title: "invalid OTP",
+            text: "Please try again",
+          });
+        },
+      });
+      return false;
+    }
+
+
+
+
+
+    function startTimer() {
+    timerId = setInterval(() => {
+        if (timeLeft <= 0) {
+            clearInterval(timerId);
+            timerDisplay.textContent = "Code expired";
+            timerDisplay.classList.add('expired');
+            inputs.forEach(input => input.disabled = true);
+            canResend = false;
+        } else {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `(${minutes}:${seconds.toString().padStart(2, '0')})`;
+            timeLeft--;
+        }
+    }, 1000);
+}
+
+
+      let timerId;
+      let canResend = true; 
+
+    function resendOTP() {
+    if (canResend) {
+        alert("New OTP sent!");
+        timeLeft = 120;
+        inputs.forEach(input => {
+            input.value = '';
+            input.disabled = false;
+        });
+        inputs[0].focus();
+        clearInterval(timerId);
+        timerDisplay.classList.remove('expired');
+        startTimer();
+
+        $.ajax({
+          type:"POST",
+          url:"/resend-otp",
+          success:function(response){
+            if(response.success){
+              Swal.fire({
+                icon:"success",
+                title:"OTP Resend succesfully",
+                showConfirmButton:false,
+                timer:1500
+              })
+            }else{
+              Swal.fire({
+                icon:"error",
+                title:"error",
+                text:"An error occured while resending OTP. pls try again"
+              })
+            }
+          }
+        })
+    } else {
+        alert("Cannot resend code. Time has expired.");
+    }
+    return false
+}
+  </script>
+</body>

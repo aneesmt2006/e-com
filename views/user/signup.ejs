@@ -1,0 +1,164 @@
+<head>
+  <link rel="stylesheet" href="css/signup.css" />
+  <link
+    href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .error-msg{
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<div id="container" class="container">
+  <!-- FORM SECTION -->
+  <div class="row">
+    <!-- SIGN UP -->
+    <div class="col align-items-center flex-col sign-up">
+      <div class="form-wrapper align-items-center">
+        <div class="form sign-up">
+          <form action="/signup" method="post" onsubmit="return validateForm()">
+            <div class="input-group">
+              <i class="bx bxs-user"></i>
+              <input
+                type="text"
+                placeholder="Username"
+                name="name"
+                id="name"
+                required
+              />
+              <span id="name-error" class="error-msg"></span>
+            </div>
+            <div class="input-group">
+              <i class="bx bx-mail-send"></i>
+              <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                id="email"
+                required
+              />
+              <span id="email-error" class="error-msg"></span>
+            </div>
+            <div class="input-group">
+              <i class="bx bxs-lock-alt"></i>
+              <input
+                type="password"
+                placeholder="Password(Containing at least 6 characters)"
+                name="password"
+                id="password"
+                required
+              />
+              <span id="password-error" class="error-msg"></span>
+            </div>
+            <div class="input-group">
+              <i class="bx bxs-phone"></i>
+              <input
+                type="tel"
+                placeholder="Phone number"
+                name="phone"
+                id="phone"
+                required
+              />
+              <span id="phone-error" class="error-msg"></span>
+            </div>
+            <% if (error_msg) { %>
+              <div class="alert alert-danger" style="margin-bottom:2%;color: red;font-size:20px;">
+                <%= error_msg %>
+              </div>
+            <% } %>
+            <button>Sign up</button>
+          </form>
+          <!-- Google Sign-Up Button -->
+          <form action="/auth/google" method="get">
+            <button type="submit" class="google-signup">
+              <i class="bx bxl-google" style="margin-left: 1%"></i> Sign up with
+              Google
+            </button>
+          </form>
+          <p>
+            <span>Already have an account?</span>
+            <b onclick="toggle()" class="pointer">Sign in here</b>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- END SIGN UP -->
+
+    <!-- SIGN IN -->
+    <div class="col align-items-center flex-col sign-in">
+      <div class="form-wrapper align-items-center">
+        <div class="form sign-in">
+          <form action="/login" method="post">
+            <div class="input-group">
+              <i class="bx bxs-user"></i>
+              <input type="email" placeholder="email" id="email" name="email" />
+            </div>
+            <div class="input-group">
+              <i class="bx bxs-lock-alt"></i>
+              <input
+                type="password"
+                placeholder="Password"
+                id="password"
+                name="password"
+              />
+            </div>
+            <% if (error_msg) { %>
+              <div class="alert alert-danger" style="margin-bottom:2%;color: red;font-size:20px;">
+                <%= error_msg %>
+              </div>
+            <% } %>
+            <button type="submit">Sign in</button>
+          </form>
+          <!-- Google Sign-In Button -->
+          <button type="button" class="google-signin">
+            <i class="bx bxl-google"></i> Sign in with Google
+          </button>
+          <p>
+            <b>Forgot password?</b>
+          </p>
+          <p>
+            <span>Don't have an account?</span>
+            <b onclick="toggle()" class="pointer">Sign up here</b>
+          </p>
+        </div>
+      </div>
+      <div class="form-wrapper"></div>
+    </div>
+    <!-- END SIGN IN -->
+  </div>
+  <!-- END FORM SECTION -->
+
+  <!-- CONTENT SECTION -->
+  <div class="row content-row">
+    <!-- SIGN IN CONTENT -->
+    <div class="col align-items-center flex-col">
+      <div class="text sign-in">
+        <h2>Welcome</h2>
+      </div>
+      <div class="img sign-in"></div>
+    </div>
+    <!-- END SIGN IN CONTENT -->
+
+    <!-- SIGN UP CONTENT -->
+    <div class="col align-items-center flex-col">
+      <div class="img sign-up"></div>
+      <div class="text sign-up">
+        <h2>Join with us</h2>
+      </div>
+    </div>
+    <!-- END SIGN UP CONTENT -->
+  </div>
+  <!-- END CONTENT SECTION -->
+</div>
+
+<script src="js/signup.js"></script>

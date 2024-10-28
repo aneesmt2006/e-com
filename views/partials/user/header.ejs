@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Vue - Clean Minimal eCommerce HTML Template</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="manifest" href="site.html" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/css/animate.min.css" />
+    <link rel="stylesheet" href="/css/magnific-popup.css" />
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="/css/flaticon.css" />
+    <link rel="stylesheet" href="/css/meanmenu.css" />
+    <link rel="stylesheet" href="/css/meanmenu.css" />
+    <link rel="stylesheet" href="/css/slick.css" />
+    <link rel="stylesheet" href="/css/default.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <style>
+  /* Keep the button and dropdown inline */
+li.login-btn {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-image {
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.hover-image:hover {
+  transform: scale(1.1);
+}
+
+/* Message-style box */
+.message-box {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  z-index: 1000;
+  width: 200px;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Message-box item styles */
+.message-box-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  transition: background-color 0.3s ease;
+}
+
+.message-box-item a {
+  text-decoration: none;
+  color: #333;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.message-box-item i {
+  color: #e23900;
+  font-size: 20px;
+}
+
+/* Hover effect for the message box items */
+.message-box-item:hover {
+  background-color: #eef1f5;
+  border-radius: 5px;
+}
+
+/* Show the message-box on hover */
+li.login-btn:hover .message-box {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out;
+}
+
+  </style>
+  <body>
+    <!-- preloader -->
+    <div id="preloader">
+      <div class="preloader">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <!-- preloader end  -->
+
+    <!-- header start -->
+    <header class="transparent-header transparent-header-2">
+      <div class="header-area box-90">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div
+              class="col-xl-2 col-lg-6 col-md-6 col-7 col-sm-3 d-flex align-items-center"
+            >
+              <div class="basic-bar cat-toggle">
+                <span class="bar1"></span>
+                <span class="bar2"></span>
+                <span class="bar3"></span>
+              </div>
+              <link rel="preconnect" href="https://fonts.googleapis.com" />
+              <link
+                rel="preconnect"
+                href="https://fonts.gstatic.com"
+                crossorigin
+              />
+              <link
+                href="https://fonts.googleapis.com/css2?family=Limelight&display=swap"
+                rel="stylesheet"
+              />
+              <div class="logo">
+                <span
+                  style="
+                    font-family: limelight;
+                    font-size: 40px;
+                    color: rgb(255, 255, 255);
+                  "
+                  >CUST</span
+                >
+              </div>
+              <div class="category-menu">
+                <h4>Category</h4>
+                <ul>
+                  <li>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Table lamp</a
+                    >
+                  </li>
+                  <li>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Furniture</a
+                    >
+                  </li>
+                  <li>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Chair</a
+                    >
+                  </li>
+                  <li>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Men</a
+                    >
+                  </li>
+                  <li>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Women</a
+                    >
+                  </li>
+                  <li>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Cloth</a
+                    >
+                  </li>
+                  <li>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Trend</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-6 col-md-8 col-8 d-none d-xl-block">
+              <div class="main-menu menu-white text-center">
+                <nav id="mobile-menu">
+                  <ul>
+                    <li>
+                      <a href="index.html">Home</a>
+                      <ul class="submenu">
+                        <li>
+                          <a href="index.html">Home Style 1</a>
+                        </li>
+                        <li>
+                          <a href="index-2.html">Home Style 2</a>
+                        </li>
+                        <li>
+                          <a href="index-3.html">Home Style 3</a>
+                        </li>
+                        <li>
+                          <a href="index-4.html">Home Style 4</a>
+                        </li>
+                        <li>
+                          <a href="index-5.html">Home Style 5</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="mega-menu">
+                      <a href="shop.html">Shop</a>
+                      <ul class="submenu">
+                        <li>
+                          <a href="#">Category View</a>
+                          <ul class="submenu level-1">
+                            <li>
+                              <a href="shop.html">Shop 2 Column</a>
+                            </li>
+                            <li>
+                              <a href="shop-filter.html">Shop Filter Style</a>
+                            </li>
+                            <li>
+                              <a href="shop-full.html">Shop Full</a>
+                            </li>
+                            <li>
+                              <a href="shop-3-col.html">Shop 3 Column</a>
+                            </li>
+                            <li>
+                              <a href="shop-list.html">List View</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a href="#">Category View</a>
+                          <ul class="submenu">
+                            <li>
+                              <a href="shop-left-sidebar.html">Sidebar Left</a>
+                            </li>
+                            <li>
+                              <a href="shop-sidebar-right.html"
+                                >Sidebar Right</a
+                              >
+                            </li>
+                            <li>
+                              <a href="cart.html">Shopping Cart</a>
+                            </li>
+                            <li>
+                              <a href="checkout.html">Checkout</a>
+                            </li>
+                            <li>
+                              <a href="wishlist.html">My Wishlist</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a href="#">Products Types</a>
+                          <ul class="submenu">
+                            <li>
+                              <a href="product-simple.html">Simple Product</a>
+                            </li>
+                            <li>
+                              <a href="product-variable.html"
+                                >Variable Product</a
+                              >
+                            </li>
+                            <li>
+                              <a href="product-upcoming.html"
+                                >Product Upcoming</a
+                              >
+                            </li>
+                            <li>
+                              <a href="product-up-thumb.html"
+                                >Thumb Top Product</a
+                              >
+                            </li>
+                            <li>
+                              <a href="product-sidebar.html">Product Sidebar</a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="shop-filter.html">Products </a>
+                    </li>
+                    <li>
+                      <a href="blog.html">Blog</a>
+                      <ul class="submenu">
+                        <li>
+                          <a href="blog-2-col.html">Blog 2 Column</a>
+                        </li>
+                        <li>
+                          <a href="blog-2-col-mas.html">Blog 2 Col Masonry</a>
+                        </li>
+                        <li>
+                          <a href="blog-3-col.html">Blog 3 Column</a>
+                        </li>
+                        <li>
+                          <a href="blog-3-col-mas.html">Blog 3 Col Masonry</a>
+                        </li>
+                        <li>
+                          <a href="blog-details.html">Blog Details</a>
+                        </li>
+                        <li>
+                          <a href="blog-details-audio.html"
+                            >Blog Details Audio</a
+                          >
+                        </li>
+                        <li>
+                          <a href="blog-details-video.html"
+                            >Blog Details Video</a
+                          >
+                        </li>
+                        <li>
+                          <a href="blog-details-gallery.html"
+                            >Blog Details Gallery</a
+                          >
+                        </li>
+                        <li>
+                          <a href="blog-details-left-sidebar.html"
+                            >Details Left Sidebar</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#">Pages</a>
+                      <ul class="submenu">
+                        <li>
+                          <a href="about.html">About Us</a>
+                        </li>
+
+                        <li>
+                          <a href="contact.html">Contact Us</a>
+                        </li>
+                        <li>
+                          <a href="/signup">login</a>
+                        </li>
+                        <li>
+                          <a href="register.html">Register</a>
+                        </li>
+                        <li>
+                          <a href="cart.html">Shoping Cart</a>
+                        </li>
+                        <li>
+                          <a href="checkout.html">Checkout</a>
+                        </li>
+                        <li>
+                          <a href="wishlist.html">Wishlist</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="contact.html">Contact</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="col-xl-2 col-lg-6 col-md-6 col-5 col-sm-9 pl-0">
+              <div class="header-right f-right">
+                <ul>
+                  <li class="search-btn">
+                    <a class="search-btn nav-search search-trigger" href="#"
+                      ><i class="fas fa-search"></i
+                    ></a>
+                  </li>
+                   <%if(locals.user){%>
+                    <li class="login-btn">
+                      <a href="/signup">
+                        <img
+                          src="img/power-switch (1).png"
+                          class="hover-image"
+                          style="font-size: 36px; width: auto; height: auto;"
+                          alt="loading"
+                        />
+                      </a>
+                       <!-- Message-style box  -->
+                      <div class="message-box">
+                        <div class="message-box-item">
+                          <i class="fa fa-user-circle"></i>
+                          <a href="/profile">Profile</a>
+                        </div>
+                        <div class="message-box-item">
+                          <i class="fa fa-cog"></i>
+                          <a href="/settings">Settings</a>
+                        </div>
+                        <div class="message-box-item">
+                          <i class="fa fa-sign-out"></i>
+                          <a href="/logout">Logout</a>
+                        </div>
+                      </div>
+                    </li> 
+                    
+                   <%}else{%>
+                  <li class="login-btn">
+                    <a href="/signup"><i class="far fa-user"></i></a>
+                  </li>
+
+                  <% }%>
+                  <li class="d-shop-cart">
+                    <a href="#"
+                      ><i class="flaticon-shopping-cart"></i>
+                      <span class="cart-count">3</span></a
+                    >
+                    <ul class="minicart">
+                      <li>
+                        <div class="cart-img">
+                          <a href="product-details.html">
+                            <img src="img/product/pro1.jpg" alt="" />
+                          </a>
+                        </div>
+                        <div class="cart-content">
+                          <h3>
+                            <a href="product-details.html"
+                              >Black & White Shoes</a
+                            >
+                          </h3>
+                          <div class="cart-price">
+                            <span class="new">$ 229.9</span>
+                            <span>
+                              <del>$239.9</del>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="del-icon">
+                          <a href="#">
+                            <i class="far fa-trash-alt"></i>
+                          </a>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="cart-img">
+                          <a href="product-details.html">
+                            <img src="img/product/pro2.jpg" alt="" />
+                          </a>
+                        </div>
+                        <div class="cart-content">
+                          <h3>
+                            <a href="product-details.html"
+                              >Black & White Shoes</a
+                            >
+                          </h3>
+                          <div class="cart-price">
+                            <span class="new">$ 229.9</span>
+                            <span>
+                              <del>$239.9</del>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="del-icon">
+                          <a href="#">
+                            <i class="far fa-trash-alt"></i>
+                          </a>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="cart-img">
+                          <a href="product-details.html">
+                            <img src="img/product/pro3.jpg" alt="" />
+                          </a>
+                        </div>
+                        <div class="cart-content">
+                          <h3>
+                            <a href="product-details.html"
+                              >Black & White Shoes</a
+                            >
+                          </h3>
+                          <div class="cart-price">
+                            <span class="new">$ 229.9</span>
+                            <span>
+                              <del>$239.9</del>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="del-icon">
+                          <a href="#">
+                            <i class="far fa-trash-alt"></i>
+                          </a>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="total-price">
+                          <span class="f-left">Total:</span>
+                          <span class="f-right">$300.0</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="checkout-link">
+                          <a href="cart.html">Shopping Cart</a>
+                          <a class="red-color" href="checkout.html">Checkout</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-12 d-xl-none">
+              <div class="mobile-menu"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- header end -->
+  </body>
+</html>
