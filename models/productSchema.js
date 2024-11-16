@@ -10,11 +10,7 @@ const productSchema = new Schema({
     description: {
         type :String,
         required:true,
-    },
-    brand: {
-        type:String,
-        required:true,
-    },
+    },//dleted brand field
     category: {
         type:Schema.Types.ObjectId,
         ref:"Category",
@@ -36,13 +32,29 @@ const productSchema = new Schema({
         type:Number,
         default:true
     },
-    color: {
+    size:{
         type:String,
         required:true
     },
+    material:{
+        type:String,
+        required:true,
+    },
+    fit:{
+        type:String,
+        required:true
+    },
+    wash:{
+        type:String,
+        required:true,
+    },
+    color: {
+        type:String,
+        required:false
+    },
     productImage:{
         type:[String],
-        required:true
+        required:true,
     },
     isBlocked:{
         type:Boolean,

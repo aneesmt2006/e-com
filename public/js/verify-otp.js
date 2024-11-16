@@ -69,7 +69,7 @@ inputs.forEach((input, index) => {
 
 function verifyOTP() {
     const otp = Array.from(inputs).map(input => input.value).join('');
-    if (otp.length === 6) {
+    if (otp.length === 4) {
         if (timeLeft > 0) {
             alert(`Verifying OTP: ${otp}`);
         } else {
@@ -80,4 +80,4 @@ function verifyOTP() {
     }
 }
 
-startTimer();
+// startTimer();

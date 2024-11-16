@@ -56,6 +56,7 @@ const customerBlocked = async(req,res)=>{
     try {
         let id = req.params.id;
         await User.updateOne({_id:id},{$set:{isBlocked:true}})
+        req.session.user= null
         res.redirect("/admin/users")
     } catch (error) {
         res.redirect("/admin/pageerror")
@@ -63,6 +64,7 @@ const customerBlocked = async(req,res)=>{
 }
 
 // unblock customer 
+
 const customerUnblocked = async(req,res)=>{
     try {
         let id  = req.params.id

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema
 
-const CartSchema = new Schema({
+const CartSchema = Schema({
     userId :{
         type:Schema.Types.ObjectId,
         ref:"User",
@@ -32,9 +32,10 @@ const CartSchema = new Schema({
         cancellationReason:{
             type:String,
             default:"none"
-        }
+        },
+        
 
-}]
+    }]
 
 })
 

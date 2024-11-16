@@ -36,8 +36,9 @@
         }
 
         .search-bar input {
-            width: 100%;
-            max-width: 400px;
+            /* width: 100%; */
+            /* max-width: 400px; */
+            width: 333px;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ddd;
@@ -168,15 +169,15 @@
 
         <!-- Search Bar with Form -->
         <div class="search-bar">
-            <form action="/search" method="GET">
-                <input type="text" name="query" id="searchInput" placeholder="Search by name, email, or phone number..." required>
-                <button type="submit">Search</button>
+            <form action="/search" method="GET" style="display: flex; border-radius: 20px;">
+                <input type="text" style=" border-radius: 33px;"  name="query" id="searchInput" placeholder="Search by name, email, or phone number..." required>
+                <button type="submit" style="border-radius: 33px;">Search</button>
             </form>
         </div>
 
         <div class="customer-list" id="customerList">
             <% data.forEach(customer => { %>
-            <div class="customer-card">
+            <div class="customer-card" ">
                 <h3><%= customer.name %></h3>
                 <p><strong>Email:</strong> <%= customer.email %></p>
                 <p><strong>Phone Number:</strong> <%= customer.phone %></p>

@@ -98,6 +98,43 @@ li.login-btn:hover .message-box {
   transition: opacity 0.3s ease-in-out;
 }
 
+/* zooming style  */
+.product-container {
+    position: relative;
+    width: 400px;
+}
+
+.product-large-img img {
+    width: 100%;
+    height: auto;
+}
+
+#zoom-lens {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    width: 100px;
+    height: 100px;
+    opacity: 0.4;
+    background-color: lightgray;
+    display: none;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+#zoom-result {
+    width: 650px;
+    height: 650px;
+    border: 1px solid #d4d4d4;
+    background-repeat: no-repeat;
+    background-size: 800px 800px; /* Adjust for zoom level */
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 600px; /* Adjust if you need it closer/further from the product image */
+    overflow: hidden; /* Ensure the zoomed image doesn’t exceed this area */
+    z-index: 1000;
+}
+
   </style>
   <body>
     <!-- preloader -->
@@ -208,7 +245,7 @@ li.login-btn:hover .message-box {
                       </ul>
                     </li>
                     <li class="mega-menu">
-                      <a href="shop.html">Shop</a>
+                      <a href="/shop">Shop</a>
                       <ul class="submenu">
                         <li>
                           <a href="#">Category View</a>
@@ -280,9 +317,9 @@ li.login-btn:hover .message-box {
                         </li>
                       </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                       <a href="shop-filter.html">Products </a>
-                    </li>
+                    </li> -->
                     <li>
                       <a href="blog.html">Blog</a>
                       <ul class="submenu">
@@ -365,7 +402,7 @@ li.login-btn:hover .message-box {
                       ><i class="fas fa-search"></i
                     ></a>
                   </li>
-                   <%if(locals.user){%>
+                   <%if(user){%>
                     <li class="login-btn">
                       <a href="/signup">
                         <img

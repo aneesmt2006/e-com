@@ -13,7 +13,7 @@ const pageError = (req,res)=>{
 const loadLogin = async (req,res)=>{
     
         if(req.session.admin){                      //check the admin is already loggined
-            return res.redirect('/dashboard')
+            return res.redirect('/admin/dashboard')
         }
 
 
@@ -27,7 +27,9 @@ const adminlogin = async(req,res)=>{
     console.log('from admin login side')
     try {
       const   {email,password}  = req.body
+      console.log("first")
       const admindata = await User.findOne({email,isAdmin:true})
+      console.log("sec")
       if(admindata){
         const passwordMatch = bcrypt.compare(password,admindata.password)// first password is destrucring pass, 2nd - find from admindata through query
        if(passwordMatch){
@@ -42,7 +44,7 @@ const adminlogin = async(req,res)=>{
 
     } catch (error) {
         console.error("login error",error)
-        return res.redirect('/admin-error')
+        return res.redirect('/admin/pageerror')
     } 
 }
 

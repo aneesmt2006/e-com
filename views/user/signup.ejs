@@ -11,11 +11,29 @@
       font-size: 14px;
       margin-top: 5px;
     }
-    .error-msg{
+    .error-msg {
       color: red;
       font-size: 14px;
       margin-top: 5px;
     }
+    .input-group {
+    position: relative;
+  }
+  .password-toggle {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .password-toggle i {
+    pointer-events: auto;
+  }
+  #password {
+    padding-right: 30px; /* Adjust based on your existing padding */
+  }
   </style>
 </head>
 
@@ -58,6 +76,9 @@
                 id="password"
                 required
               />
+              <span class="password-toggle">
+                <i class="bx bx-hide" id="togglePassword" aria-label="Toggle password visibility"></i>
+              </span>
               <span id="password-error" class="error-msg"></span>
             </div>
             <div class="input-group">
@@ -72,9 +93,12 @@
               <span id="phone-error" class="error-msg"></span>
             </div>
             <% if (error_msg) { %>
-              <div class="alert alert-danger" style="margin-bottom:2%;color: red;font-size:20px;">
-                <%= error_msg %>
-              </div>
+            <div
+              class="alert alert-danger"
+              style="margin-bottom: 2%; color: red; font-size: 20px"
+            >
+              <%= error_msg %>
+            </div>
             <% } %>
             <button>Sign up</button>
           </form>
@@ -113,16 +137,22 @@
               />
             </div>
             <% if (error_msg) { %>
-              <div class="alert alert-danger" style="margin-bottom:2%;color: red;font-size:20px;">
-                <%= error_msg %>
-              </div>
+            <div
+              class="alert alert-danger"
+              style="margin-bottom: 2%; color: red; font-size: 20px"
+            >
+              <%= error_msg %>
+            </div>
             <% } %>
             <button type="submit">Sign in</button>
           </form>
           <!-- Google Sign-In Button -->
-          <button type="button" class="google-signin">
-            <i class="bx bxl-google"></i> Sign in with Google
-          </button>
+
+          <form action="/auth/google" method="get">
+            <button type="submit" class="google-signin">
+              <i class="bx bxl-google"></i> Sign in with Google
+            </button>
+          </form>
           <p>
             <b>Forgot password?</b>
           </p>
@@ -162,3 +192,20 @@
 </div>
 
 <script src="js/signup.js"></script>
+<script>
+  const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#password');
+
+  togglePassword.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye / eye slash icon
+    this.classList.toggle('bx-show');
+    this.classList.toggle('bx-hide');
+    // Update aria-label for accessibility
+    this.setAttribute('aria-label', 
+      type === 'password' ? 'Show password' : 'Hide password'
+    );
+  });
+</script>

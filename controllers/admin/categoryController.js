@@ -28,7 +28,9 @@ const categoryInfo = async (req, res) => {
 
 //add category
 const addCategory = async (req, res) => {
-  const { name, description } = req.body;
+  // const { name, description } = req.body;
+  const name = req.body.name.trim();
+  const description = req.body.description.trim();
   try {
     const existingCategory = await Category.findOne({ name });
     if (existingCategory) {
@@ -105,7 +107,7 @@ const removeCategoryOffer = async (req, res) => {
 
     if (products.length > 0) {
       for (const product of products) {
-        product.salePrice += Math.floorl(
+        product.salePrice += Math.floor(
           product.regularPrice * (percentage / 100)
         );
         product.productOffer = 0;
@@ -116,7 +118,8 @@ const removeCategoryOffer = async (req, res) => {
     await category.save();
     res.json({ status: true });
   } catch (error) {
-    res.status(500).json({ status: false, message: "internal Server error" });
+    console.log(error)
+    res.status(500).json({ status: false, message: "internal Server error",error });
   }
 };
 // functin for list category
@@ -158,34 +161,70 @@ const getEditCategory = async(req,res)=>{
 
 // edit category 
 
-const editCategory = async (req,res)=>{
-    try {
-        console.log("from pure edit category")
-        const id = req.params.id ; 
-        const {categoryName,description} = req.body
-        const existingCategory = await Category.findOne({name:categoryName})
+const editCategory = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { categoryName, description } = req.body;
+    console.log("hiiii")
 
-
-        if(existingCategory){
-            return res.status(400).json({error:"Category exists , please choose another name"})
-        }
-        
-        const updateCategory = await  Category.findByIdAndUpdate(id,{
-            name:categoryName,
-            description:description,
-        },{new:true})// return document immediately
-
-        if(updateCategory){
-            res.redirect("/admin/category")
-        }else{
-            res.status(404).json({error:"Category not found"})
-        }
-
-    } catch (error) {
-        res.status(500).json({error:"Internal sever Error"})
-        
+    // Check for existing category with the same name
+    const existingCategory = await Category.findOne({ name: categoryName, _id: { $ne: id } });
+    if (existingCategory) {
+      // Send error response for duplicate category
+      return res.status(400).json({ error: "Category exists, please choose another name" });
     }
-}
+
+    // Update the category
+    const updateCategory = await Category.findByIdAndUpdate(
+      id,
+      {
+        name: categoryName,
+        description: description,
+      },
+      { new: true }
+    );
+
+    if (updateCategory) {
+      // Send success response
+      return res.json({ success: true, message: "Category updated successfully" });
+    } else {
+      // Handle category not found
+      return res.status(404).json({ error: "Category not found" });
+    }
+  } catch (error) {
+    // Handle internal server errors
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// const editCategory = async (req,res)=>{
+//     try {
+//         console.log("from pure edit category")
+//         const id = req.params.id ; 
+//         const {categoryName,description} = req.body
+//         const existingCategory = await Category.findOne({name:categoryName})
+
+
+//         if(existingCategory){
+//             return res.status(400).json({error:"Category exists , please choose another name"})
+//         }
+        
+//         const updateCategory = await  Category.findByIdAndUpdate(id,{
+//             name:categoryName,
+//             description:description,
+//         },{new:true})// return document immediately
+
+//         if(updateCategory){
+//             res.redirect("/admin/category")
+//         }else{
+//             res.status(404).json({error:"Category not found"})
+//         }
+
+//     } catch (error) {
+//         res.status(500).json({error:"Internal sever Error"})
+        
+//     }
+// }
 
 
 module.exports = {

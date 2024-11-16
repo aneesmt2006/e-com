@@ -9,16 +9,23 @@ passport.use(new GoogleStrategy({
     clientID:process.env.GOOGLE_CLIENT_ID ,
     clientSecret:process.env.GOOGLE_CLIENT_SECRET,
     callbackURL:"/auth/google/callback",
-    // passReqToCallback: true,
+    passReqToCallback: true,
 },
 
 
-async (accessToken, refreshToken, profile, done)=>{
+async (req,res,accessToken, refreshToken, profile, done)=>{
 
     try {
          let user = await User.findOne({googleId:profile.id})
          if(user){
+         
+            // if(user.isBlocked){
+            //     req.flash("error_msg","userblockec")
+            //     return res.redirect("/login")
+            // }
+            req.session.user=user._id
             return done(null,user)
+            
          }else{
             const existingUser = await User.findOne({ email: profile.emails[0].value });
             if (existingUser) {
