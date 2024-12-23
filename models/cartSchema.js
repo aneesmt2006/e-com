@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema
 
 const CartSchema = Schema({
@@ -13,9 +14,14 @@ const CartSchema = Schema({
             ref:'Product',
             required:true
         },
-        quantity:{
-            type:Number,
-            default:1
+        size: { // Specific size selected by the user
+            type: String,
+            // e.g., "S", "M", "L", etc.
+        },
+        quantity: {
+            type: Number,
+            default: 1,
+            max:5
         },
         price:{
             type:Number,
@@ -23,7 +29,9 @@ const CartSchema = Schema({
         },
         totalPrice:{
             type:Number,
+            default:0,
             required:true
+        
         },
         status:{
             type :String,

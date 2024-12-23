@@ -205,7 +205,7 @@ if (canStartTimer) {
     function resendOTP() {
       console.log("button clicked")
     
-        alert("New OTP sent!");
+      showSuccessPopup(" ✔ New OTP sent!");
         timeLeft = 120;
         inputs.forEach(input => {
             input.value = '';

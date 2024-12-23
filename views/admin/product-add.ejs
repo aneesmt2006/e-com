@@ -1,6 +1,6 @@
 <%- include("../../views/partials/admin/header") %>
-<!DOCTYPE html>
-<html lang="en">
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -253,12 +253,12 @@
               
                     </select>
                 </div>
-                <div class="w-full md:w-1/2 px-2">
+                <!-- <div class="w-full md:w-1/2 px-2">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="quantity">
                         Stock Quantity
                     </label>
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="quantity" name="quantity" type="number" placeholder="Enter stock quantity" pattern="\d*" title="Only numbers are allowed">
-                </div>
+                </div> -->
             </div>
             <div class="flex flex-wrap -mx-2 mb-4">
                 <div class="w-full md:w-1/2 px-2 mb-4 md:mb-0">
@@ -268,18 +268,31 @@
                     </label>
                 </div>
                 <div class="w-full md:w-1/2 px-2">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="product-size">
-                        Size
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="sizes">
+                        Sizes
                     </label>
-                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="size" name="product-size">
-                        <option value="">Select a size</option>
-                        <option value="xs">XS</option>
-                        <option value="s">S</option>
-                        <option value="m">M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                        <option value="xxl">XXL</option>
-                    </select>
+                    <div class="grid grid-cols-2 gap-4"  id="sizes">
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1" for="size-s">S</label>
+                            <input type="number" id="size-s" name="size-s" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" min="0" placeholder="Quantity">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1" for="size-m">M</label>
+                            <input type="number" id="size-m" name="size-m" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" min="0" placeholder="Quantity">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1" for="size-l">L</label>
+                            <input type="number" id="size-l" name="size-l" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" min="0" placeholder="Quantity">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1" for="size-xl">XL</label>
+                            <input type="number" id="size-xl" name="size-xl" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" min="0" placeholder="Quantity">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm mb-1" for="size-xxl">XXL</label>
+                            <input type="number" id="size-xxl" name="size-xxl" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" min="0" placeholder="Quantity">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="flex flex-wrap -mx-2 mb-4">
@@ -543,8 +556,8 @@ function showErrorPopup(message) {
             const regularPrice = document.getElementById('regularPrice').value
             const description = document.getElementById('description').value
             const category = document.getElementById('category').value
-            const quantity = document.getElementById('quantity').value
-            const size = document.getElementById('size').value
+            // const quantity = document.getElementById('quantity').value
+            // const size = document.getElementById('size').value
             const material = document.getElementById('material').value
             const fit = document.getElementById('fit').value
             const  wash = document.getElementById('wash').value
@@ -560,8 +573,8 @@ function showErrorPopup(message) {
             formData.append('regularPrice',regularPrice)
             formData.append('description',description)
             formData.append('category',category)
-            formData.append('quantity',quantity)
-            formData.append('size',size)
+            // formData.append('quantity',quantity)
+            // formData.append('size',size)
             formData.append('material',material)
             formData.append('fit',fit)
             formData.append('wash',wash)
@@ -570,7 +583,14 @@ function showErrorPopup(message) {
             formData.append('image3',image3)
             formData.append('image4',image4)
            
-            
+             // Append size quantities
+             const sizes = ['s', 'm', 'l', 'xl', 'xxl'];
+            sizes.forEach(size => {
+                const sizeQuantity = document.getElementById(`size-${size}`).value;
+                formData.append(`size-${size}`, sizeQuantity);
+            });
+
+
              console.log("4")
 
             try  {
@@ -607,8 +627,7 @@ function showErrorPopup(message) {
             const price = document.getElementById('salePrice').value;
             const regularprice = document.getElementById('regularPrice').value;
             const category = document.getElementById('category').value;
-            const quantity = document.getElementById('quantity').value;
-            const size = document.getElementById('size').value
+            // const quantity = document.getElementById('quantity').value;
             const material = document.getElementById('material').value
             const fit = document.getElementById('fit').value
             const wash = document.getElementById('wash').value
@@ -632,21 +651,24 @@ function showErrorPopup(message) {
                 displayErrorMessage("regularPrice","Please enter a valid regular price")
                 isValid = false ;
             }
-
+             if (parseFloat(regularprice) <= parseFloat(price)) {
+                 displayErrorMessage(  "regularPrice", "Regular price must be greater than the sale price.");
+                 isValid = false;
+}
             if (category === "") {
                 displayErrorMessage("category", "Please select a category.");
                 isValid = false;
             }
 
-            if (quantity.trim() === "" || parseInt(quantity) < 0) {
-                displayErrorMessage("quantity", "Please enter a valid quantity.");
-                isValid = false;
-            }
-            if (size.trim() === "" || size==="Select a size") {
-                console.log("error  from size")
-                displayErrorMessage("size", "Please enter a valid size.");
-                isValid = false;
-            }
+            // if (quantity.trim() === "" || parseInt(quantity) < 0) {
+            //     displayErrorMessage("quantity", "Please enter a valid quantity.");
+            //     isValid = false;
+            // }
+            // if (size.trim() === "" || size==="Select a size") {
+            //     console.log("error  from size")
+            //     displayErrorMessage("size", "Please enter a valid size.");
+            //     isValid = false;
+            // }
             if (material.trim() === "" || material==="Select Material") {
                 displayErrorMessage("material", "Please select a material.");
                 isValid = false;
@@ -657,6 +679,20 @@ function showErrorPopup(message) {
             }
             if (wash.trim() === "" || wash==="Select Wash and Care") {
                 displayErrorMessage("wash", "Please select a wash type");
+                isValid = false;
+            }
+            // Validate sizes
+            console.log("going for size validation")
+            const sizes = ['s', 'm', 'l', 'xl', 'xxl'];
+            let atLeastOneSizeEntered = false;
+            sizes.forEach(size => {
+                const sizeQuantity = document.getElementById(`size-${size}`).value;
+                if (sizeQuantity !== "" && parseInt(sizeQuantity) > 0) {
+                    atLeastOneSizeEntered = true;
+                }
+            });
+            if (!atLeastOneSizeEntered) {
+                displayErrorMessage("sizes", "Please enter a quantity for at least one size.");
                 isValid = false;
             }
 

@@ -265,31 +265,92 @@
             <div class="flex flex-wrap -mx-2 mb-4">
                 <div class="w-full md:w-1/2 px-2 mb-4 md:mb-0">
                     <label class="flex items-center">
-                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" id="block-product" name="block-product">
+                        <input 
+                            type="checkbox" 
+                            class="form-checkbox h-5 w-5 text-blue-600" 
+                            id="block-product" 
+                            name="block-product" 
+                            <% if (product.status === 'Blocked') { %>checked<% } %>
+                        >
                         <span class="ml-2 text-gray-700">Block this product</span>
                     </label>
                 </div>
                 <div class="w-full md:w-1/2 px-2">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="product-size">
-                        Size
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="sizes">
+                        Sizes
                     </label>
-                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="product-size" name="product-size">
-                        <option value="<%=product.size%>"><%=product.size%></option>
-                        <option value="xs">XS</option>
-                        <option value="s">S</option>
-                        <option value="m">M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                        <option value="xxl">XXL</option>
+                    <div class="grid grid-cols-2 gap-4" id="sizes">
+                        <% ['S', 'M', 'L', 'XL', 'XXL'].forEach(size => { %>
+                            <div>
+                                <label class="block text-gray-700 text-sm mb-1" for="size-<%= size.toLowerCase() %>"><%= size %></label>
+                                <input 
+                                    type="number" 
+                                    id="size-<%= size.toLowerCase() %>" 
+                                    name="size-<%= size.toLowerCase() %>" 
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                    min="0" 
+                                    placeholder="Quantity"
+                                    value="<%= product.sizes[size] || 0 %>"
+                                >
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-wrap -mx-2 mb-4">
+                <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="material-type">
+                        Material/Cloth Type
+                    </label>
+                    <select 
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                        id="material" 
+                        name="material"
+                    >
+                        <option value="">Select Material</option>
+                        <% ['cotton', 'polyester', 'cotton-polyester-blend', 'organic-cotton', 'bamboo', 'rayon', 'jersey-knit'].forEach(material => { %>
+                            <option value="<%= material %>" <% if (product.material === material) { %>selected<% } %>><%= material.charAt(0).toUpperCase() + material.slice(1).replace(/-/g, ' ') %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fit-and-style">
+                        Fit and Style
+                    </label>
+                    <select 
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                        id="fit" 
+                        name="fit"
+                    >
+                        <option value="">Select Fit and Style</option>
+                        <% ['slim-fit', 'regular-fit', 'loose-fit', 'oversized', 'athletic-fit', 'unisex', 'crop-top', 'longline', 'v-neck', 'crew-neck', 'round-neck', 'polo', 'henley'].forEach(fit => { %>
+                            <option value="<%= fit %>" <% if (product.fit === fit) { %>selected<% } %>><%= fit.charAt(0).toUpperCase() + fit.slice(1).replace(/-/g, ' ') %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="wash-care">
+                        Wash and Care Instructions
+                    </label>
+                    <select 
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                        id="wash" 
+                        name="wash"
+                    >
+                        <option value="">Select Wash and Care</option>
+                        <% ['machine-wash', 'hand-wash', 'tumble-dry', 'no-bleach', 'dry-clean', 'iron-safe'].forEach(wash => { %>
+                            <option value="<%= wash %>" <% if (product.wash === wash) { %>selected<% } %>><%= wash.charAt(0).toUpperCase() + wash.slice(1).replace(/-/g, ' ') %></option>
+                        <% }) %>
                     </select>
                 </div>
             </div>
+            
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">
                     Product Images
                 </label>
                 <div class="flex flex-wrap -mx-2">
-                    <%for(let i=0;i<product.productImage.length;i++){%>
+                    <%for(let i=0;i< product.productImage.length;i++){%>
                     <div class="w-full sm:w-1/2 md:w-1/4 px-2 mb-4">
                         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="image<%= i + 1 %>" name="image<%= i + 1 %>" type="file" accept="image/*" value="<%=product.productImage[i]%>"  required>
                         <img id="preview<%= i + 1 %>" class="image-preview" src="/uploads/re-image/<%=product.productImage[i]%>" style="display: block; margin-top: 10px; max-width: 100%;">
@@ -403,45 +464,8 @@
 
 
 
-//         function addProductForm(){
-//             if (!validateForm()) {
-//                 return;
-//             }
-//             console.log("1")
-
-//             //  Validate that all images are cropped;
-//             for (let i = 1; i <= 4; i++) {
-//                 if (!croppedBlobs[`preview${i}`]) {
-
-//                     showErrorPopup(`Please upload and crop Image ${i}`);
-//                     return;
-                  
-//                 }
-//             }
-//              // Collect form data
-//             const formData = new FormData(this);
 
 
-//             $.ajax({
-//                 type:"POST",
-//                 url:"/admin/addProducts",
-//                 data:{formdata:formData},
-//                 success:function(response){
-//                     if(response.success){
-//                         showSuccessPopup("✔ OTP verified successfully!")
-//                         setTimeout(()=>{
-//                             window.location.href = response.redirectUrl
-//                         },1500)
-//                     }else{
-//                         showErrorPopup(response.message || "something went wrong")
-//                     }
-//                 },
-//                 error:function(){
-//                     showErrorPopup("Invalid message")
-//                 }
-//             })
-//             return false;
-//         }
 
    // Display success popup with a custom message
     function showSuccessPopup(message) {
@@ -487,8 +511,11 @@ function showErrorPopup(message) {
             const regularPrice = document.getElementById('regularPrice').value
             const description = document.getElementById('description').value
             const category = document.getElementById('category').value
-            const quantity = document.getElementById('quantity').value
-            const size = document.getElementById('product-size').value
+            // const quantity = document.getElementById('quantity').value
+            // const size = document.getElementById('product-size').value
+            const material = document.getElementById('material').value
+            const fit = document.getElementById('fit').value
+            const  wash = document.getElementById('wash').value
             const image1 = document.getElementById('image1').files[0]; 
             const image2 = document.getElementById('image2').files[0]; 
             const image3 = document.getElementById('image3').files[0]; 
@@ -501,14 +528,25 @@ function showErrorPopup(message) {
             formData.append('regularPrice',regularPrice)
             formData.append('description',description)
             formData.append('category',category)
-            formData.append('quantity',quantity)
-            formData.append('size',size)
+            // formData.append('quantity',quantity)
+            // formData.append('size',size)
+            formData.append('material',material)
+            formData.append('fit',fit)
+            formData.append('wash',wash)
             formData.append('image1',image1)
             formData.append('image2',image2)
             formData.append('image3',image3)
             formData.append('image4',image4)
            
-            
+              // Append size quantities
+              const sizes = ['s', 'm', 'l', 'xl', 'xxl'];
+            sizes.forEach(size => {
+                const sizeQuantity = document.getElementById(`size-${size}`).value;
+                formData.append(`size-${size}`, sizeQuantity);
+            });
+
+
+
              console.log("4")
              const productId = "<%=product._id%>"
 
@@ -546,7 +584,10 @@ function showErrorPopup(message) {
             const price = document.getElementById('salePrice').value;
             const regularprice = document.getElementById('regularPrice').value;
             const category = document.getElementById('category').value;
-            const quantity = document.getElementById('quantity').value;
+            // const quantity = document.getElementById('quantity').value;
+            const material = document.getElementById('material').value
+            const fit = document.getElementById('fit').value
+            const wash = document.getElementById('wash').value
             let isValid = true;
 
             if (name.trim() === "") {
@@ -568,15 +609,42 @@ function showErrorPopup(message) {
                 isValid = false ;
             }
 
-            if (category === "") {
-                displayErrorMessage("category", "Please select a category.");
+            // if (category === "") {
+            //     displayErrorMessage("category", "Please select a category.");
+            //     isValid = false;
+            // }
+
+            // if (quantity.trim() === "" || parseInt(quantity) < 0) {
+            //     displayErrorMessage("quantity", "Please enter a valid quantity.");
+            //     isValid = false;
+            // }
+            if (material.trim() === "" || material==="Select Material") {
+                displayErrorMessage("material", "Please select a material.");
+                isValid = false;
+            }
+            if (fit.trim() === "" || fit==="Select Fit and Style") {
+                displayErrorMessage("fit", "Please select a fit");
+                isValid = false;
+            }
+            if (wash.trim() === "" || wash==="Select Wash and Care") {
+                displayErrorMessage("wash", "Please select a wash type");
+                isValid = false;
+            }
+            // Validate sizes
+            console.log("going for size validation")
+            const sizes = ['s', 'm', 'l', 'xl', 'xxl'];
+            let atLeastOneSizeEntered = false;
+            sizes.forEach(size => {
+                const sizeQuantity = document.getElementById(`size-${size}`).value;
+                if (sizeQuantity !== "" && parseInt(sizeQuantity) > 0) {
+                    atLeastOneSizeEntered = true;
+                }
+            });
+            if (!atLeastOneSizeEntered) {
+                displayErrorMessage("sizes", "Please enter a quantity for at least one size.");
                 isValid = false;
             }
 
-            if (quantity.trim() === "" || parseInt(quantity) < 0) {
-                displayErrorMessage("quantity", "Please enter a valid quantity.");
-                isValid = false;
-            }
 
             return isValid;
         }

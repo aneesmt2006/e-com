@@ -109,7 +109,7 @@
                   name="name"
                   placeholder="Type here"
                   class="form-control"
-                  id="product_name"
+                  id="name"
                   required
                 />
                 <div id="name-error" class="error-message"></div>
@@ -286,13 +286,13 @@
             title: "Oops",
             text: error,
           });
-  
+          
         });
     }
 
     function validateForm() {
       clearErrormessages();
-      const name = document.getElementsByName("name")[0].value.trim();
+      const name = document.getElementById("name").value.trim();
       const description = document.getElementById("descriptionId").value.trim();
       isValid = true;
 

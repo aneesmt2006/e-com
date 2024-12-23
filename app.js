@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const Razorpay = require('razorpay')
 const env = require("dotenv").config();
 const nocache = require('nocache')
 const session = require("express-session");
@@ -15,13 +16,6 @@ db(() => {
 
 app.use(nocache())
 
-// app.use((req, res, next) => {
-//   res.setHeader('Cache-Control', 'no-cache, no-store,must-revalidate');
-//   res.setHeader('Pragma', 'no-cache');
-//   res.setHeader('Expires', '-1');
-//   res.setHeader('Surrogate-Control', 'no-store');
-//   next();
-// });
 app.use((req,res,next) =>{
   res.set('cache-control','no-store');
   next();
@@ -51,11 +45,6 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use((req, res, next) => {
-//   res.set("cache-control", "no-store");
-//   next();
-// });
-
 
 app.set("view engine", "ejs");
 app.set("views", [
@@ -64,24 +53,26 @@ app.set("views", [
 ]);
 app.use(express.static(path.join(__dirname, "public")));
 
+
+const razorpay = new Razorpay({
+  key_id:process.env.RAZORPAY__KEY_ID,
+  key_secret:process.env.RAZORPAY__SECRET_KEY,
+
+})
+
 app.use("/admin", adminRouter); //admin routes
 app.use("/", userRouter); //user routes
 
 
-// app.use((req,res)=>{
-//     res.status(400).render("page-404")
-// })
-//   db().then(() => {
-//   const PORT = process.env.PORT || 2000;
-//   app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-//   });
-// }).catch(err => {
-//   console.error("Failed to connect to database:", err);
-// });
+// Catch-all route for undefined routes
+app.use((req, res) => {
+  res.status(404).render('404'); // Render the 404.ejs in 'views/user/'
+});
+
 
 app.listen(process.env.PORT, () => {
   console.log("sever is running");
 });
 
 module.exports = app;
+

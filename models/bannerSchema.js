@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const { string } = require("three/webgpu")
 const couponSchema = require("./couponSchema")
 const Schema = mongoose.Schema
 

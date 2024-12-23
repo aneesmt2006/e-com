@@ -26,6 +26,7 @@ const addProducts = async (req, res) => {
   console.log("from addproducts");
   try {
     const Products = req.body;
+    console.log(Products)
     console.log('going to check if it exist')
     const ProductExists = await Product.findOne({
       productName: Products.name,
@@ -55,6 +56,18 @@ const addProducts = async (req, res) => {
       if (!categoryId) {
         return res.status(400).join("Invalid category name ");
       }
+
+      console.log(req.body)
+
+
+      const sizes = {
+        S: parseInt(Products['size-s']) || 0,
+        M: parseInt(Products['size-m']) || 0,
+        L: parseInt(Products['size-l']) || 0,
+        XL: parseInt(Products['size-xl']) || 0,
+        XXL: parseInt(Products['size-xxl']) || 0
+      };
+
       const newProduct = new Product({
         productName: Products.name,
         description: Products.description,
@@ -62,8 +75,7 @@ const addProducts = async (req, res) => {
         regularPrice: Products.regularPrice,
         salePrice: Products.salePrice,
         createdOn: new Date(),
-        quantity: Products.quantity,
-        size:Products.size,
+        sizes:sizes,
         color: Products.color,
         wash:Products.wash,
         material:Products.material,
@@ -111,6 +123,11 @@ const getallProducts = async (req, res) => {
             .populate("category")
             .exec();
 
+            // total  quantity of each prouduct
+            productData.forEach(product => {
+              const { S, M, L, XL, XXL } = product.sizes;
+              product.totalQuantity = S + M + L + XL + XXL;
+          });
         // Count total matching products for pagination calculation
         const count = await Product.countDocuments(query);
 
@@ -175,6 +192,7 @@ const editProduct = async(req,res)=>{
   try {
         editId = req.query.id
         const product = await Product.findOne({_id:editId}).populate('category')
+        console.log('editing data-----',product)
         const category = await Category.find({})
        
        
@@ -192,65 +210,132 @@ const editProduct = async(req,res)=>{
 }
 
 // Edit products submit 
-const addEditProduct = async (req,res)=>{
+const mongoose = require('mongoose');
+
+const addEditProduct = async (req, res) => {
   try {
-    console.log("1")
-    const id = req.params.id
-    console.log("sec")
-    console.log(id)
-    console.log("third")
-    const product = await Product.findOne({_id:id})
-    console.log("four")
-    const data = req.body
-    const ProductExists =  await Product.findOne({productName:data.name,_id:{$ne:id}})
-    if(ProductExists){
-      console.log("product already exist with this same name")
-      return res.status(400).json({message:'product with this same name already exist try with another name '})
+    const id = req.params.id;
+    console.log(" from productd id--------------- ", id)
+
+    const product = await Product.findOne({ _id: id });
+    
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
     }
 
-    const images = []
+    const data = req.body;
+    console.log("requested body---------->  ",data)
+    const ProductExists = await Product.findOne({
+      productName: data.name,
+      _id: { $ne: new mongoose.Types.ObjectId(id) },
+    });
 
-    if(req.files && req.files.length>0){
-      for(let i=0;i<req.files.length;i++){
-        images.push(req.files[i].filename)
+    if (ProductExists) {
+      console.log("Product with this same name already exists");
+      return res.status(400).json({
+        message: 'Product with this same name already exists. Try with another name.',
+      });
+    }
+
+    const images = [];
+    if (Array.isArray(req.files) && req.files.length > 0) {
+      for (let i = 0; i < req.files.length; i++) {
+        images.push(req.files[i].filename);
       }
     }
 
+    const sizes = {
+      S: parseInt(data['size-s']) || 0,
+      M: parseInt(data['size-m']) || 0,
+      L: parseInt(data['size-l']) || 0,
+      XL: parseInt(data['size-xl']) || 0,
+      XXL: parseInt(data['size-xxl']) || 0,
+    };
 
-    const updateFields ={
-      productName:data.name,
-      description:data.description,
-      salePrice:data.salePrice,
-      regularPrice:data.regularPrice,
-      quantity:data.quantity,
-      size:data.size,
+    const updateFields = {
+      productName: data.name,
+      description: data.description,
+      salePrice: data.salePrice,
+      category:data.category,
+      regularPrice: data.regularPrice,
+      sizes: sizes,
+      wash: data.wash,
+      material: data.material,
+      fit: data.fit,
+      status: "Available",
+    };
+
+    const category = await Category.findOne({ name: data.category });
+if (!category) {
+  return res.status(400).json({ message: 'Category not found' });
+}
+updateFields.category = category._id;
+
+    if (images.length > 0) {
+      updateFields.productImage = images;
     }
 
-    if(req.files.length>0){
-      updateFields.$push = {productImage:{$each:images}}
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      updateFields,
+      { new: true }
+    );
+
+    if (updatedProduct) {
+      return res.redirect('/admin/products');
+    } else {
+      return res.status(404).send('Product not found');
     }
-    // console.log("2")
-    // console.log(req.files)
-    // if (req.files && req.files.length>0) {
-    //   updateFields.productImages = req.files.map(file => file.filename); // Store all uploaded image paths in an array
-    // }
-    console.log(updateFields)
-    console.log("3")
-    const updatedProduct = await Product.findByIdAndUpdate(id,updateFields,{new:true})
 
-    if(updatedProduct){
-
-      return res.redirect('/admin/products')
-    }else{
-      return res.status(404).send('product NOt found')
-    }
-    
-
-
-    
   } catch (error) {
-    console.log(error)
-    res.redirect('/admin/pageerror')
+    console.error("Error updating product:", error);
+    res.redirect('/admin/pageerror');
+  }
+};
+
+// add offer 
+const updateOffer = async(req,res)=>{
+  console.log("iam update offer function")
+  const {productId,offer} =  req.body
+  console.log(productId,offer)
+
+  if(!productId || !offer){
+    return res.status(400).json({success:false,message:"Invalid data provided"})
+  }
+  try {
+    const result = await Product.findByIdAndUpdate(productId,{$set:{productOffer:offer}},{new:true})
+
+    if(result){
+      res.status(200).json({success:true,message:"Offer updated Successfully",result:result})
+    }else {
+      console.log("there is no body")
+      res.status(404).json({ success: false, message: 'Product not found' });
+  }
+  } catch (error) {
+    console.error('Error updating product:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+}
+
+// remove offer 
+const removeOffer = async(req,res)=>{
+  const{productId} = req.body
+
+  try {
+    // Update the product to remove the offer
+        const result = await Product.updateOne(
+            { _id: productId },
+            { $set: { productOffer: 0 } }
+        );
+
+        if (result.modifiedCount > 0) {
+            res.json({ success: true ,result:result});
+        } else {
+            res.json({ success: false, message: 'No changes made.' });
+        }
+  } catch (error) {
+    console.error('Error removing offer:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 }
 
@@ -261,5 +346,7 @@ module.exports = {
   blockProduct,
   unblockProduct,
   editProduct,
-  addEditProduct
+  addEditProduct,
+  updateOffer,
+  removeOffer
 };

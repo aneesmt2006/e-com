@@ -7,6 +7,8 @@
     <title>Admin - Product Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -100,21 +102,47 @@
                             </td>
                             <td class="py-3 px-4 md:px-6 text-center">
                                 <div class="flex items-center justify-center space-x-2">
-                                    <span id="offerDisplay" class="hidden bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs"></span>
-                                    <button id="addOfferBtn" class="w-8 h-8 rounded-full bg-green-500 text-white hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none" title="Add Offer">
+                                    <!-- Check if the product has an offer -->
+                                    <% if (data[i].productOffer && data[i].productOffer > 0) { %>
+                                        <!-- Show offer percentage -->
+                                        <span class="offerDisplay bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">
+                                            <%= data[i].productOffer %>% OFF
+                                        </span>
+                                        <!-- Remove Offer Button -->
+                                        <button class="removeOfferBtn w-8 h-8 rounded-full bg-red-500 text-white hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none" 
+                                                data-product-id="<%= data[i]._id %>" 
+                                                title="Remove Offer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 mx-auto">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    <% } else { %>
+                                        <!-- Add Offer Button -->
+                                        <button class="addOfferBtn w-8 h-8 rounded-full bg-green-500 text-white hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none" 
+                                                data-product-id="<%= data[i]._id %>" 
+                                                title="Add Offer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 mx-auto">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                            </svg>
+                                        </button>
+                                    <% } %>
+                                </div>
+                            </td>
+                            
+                            <!-- <td class="py-3 px-4 md:px-6 text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <span class="offerDisplay hidden bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs"></span>
+                                    <button class="addOfferBtn w-8 h-8 rounded-full bg-green-500 text-white hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none" 
+                                            data-product-id="<%= data[i]._id %>" 
+                                            title="Add Offer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 mx-auto">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
                                     </button>
-                                    <button id="removeOfferBtn" class="hidden w-8 h-8 rounded-full bg-red-500 text-white hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none" title="Remove Offer">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 mx-auto">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
                                 </div>
-                            </td>
+                            </td> -->
                             <td class="py-3 px-4 md:px-6 text-center hidden md:table-cell">
-                                <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs"><%=data[i].quantity%></span>
+                                <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs"><%= data[i].totalQuantity %></span>
                             </td>
                             <td class="py-3 px-4 md:px-6 text-center">
                                 <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs"><%=data[i].status%></span>
@@ -183,7 +211,7 @@
                 <!-- <a href="#" aria-current="page" class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a> -->
               
                   
-                <a href="/admin/products?page=<%=i%>" class=" <%=(currentpage==i)? 'active' : '' %> relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"><%=i%></a>
+                <a href="/admin/products?page=<%=i%>" class=" <%=(currentpage===i)? 'active' : '' %> relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"><%=i%></a>
                 <%}%>
                     <%}%>
                 <!-- <a href="#" class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">3</a> -->
@@ -243,44 +271,144 @@
             });
         });
 
-        // Add Offer functionality
-        const addOfferBtn = document.getElementById('addOfferBtn');
-        const removeOfferBtn = document.getElementById('removeOfferBtn');
-        const offerDisplay = document.getElementById('offerDisplay');
-        const addOfferModal = document.getElementById('addOfferModal');
-        const offerPercentageInput = document.getElementById('offerPercentageInput');
-        const confirmAddOfferBtn = document.getElementById('confirmAddOfferBtn');
+//add offer
+document.querySelectorAll('.addOfferBtn').forEach((button) => {
+    button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id'); // Get product ID
+        console.log(`Opening modal for product ID: ${productId}`);
 
-        addOfferBtn.addEventListener('click', () => {
-            addOfferModal.classList.remove('hidden');
-        });
+        // Reset and show modal
+        offerPercentageInput.value = '';
+        addOfferModal.classList.remove('hidden');
 
-        confirmAddOfferBtn.addEventListener('click', () => {
-            const percentage = parseFloat(offerPercentageInput.value);
-            if (isNaN(percentage) || percentage <= 0 || percentage >= 100) {
-                alert('Please enter a valid percentage between 0 and 100');
-                return;
-            }
-
-            offerDisplay.textContent = `${percentage}% OFF`;
-            offerDisplay.classList.remove('hidden');
-            addOfferBtn.classList.add('hidden');
-            removeOfferBtn.classList.remove('hidden');
-            addOfferModal.classList.add('hidden');
-        });
-
-        removeOfferBtn.addEventListener('click', () => {
-            offerDisplay.classList.add('hidden');
-            addOfferBtn.classList.remove('hidden');
-            removeOfferBtn.classList.add('hidden');
-        });
-
-        // Close modal when clicking outside
+        // Handle modal close when clicking outside
         addOfferModal.addEventListener('click', (e) => {
             if (e.target === addOfferModal) {
                 addOfferModal.classList.add('hidden');
             }
         });
+
+        // Handle modal confirmation
+        confirmAddOfferBtn.onclick = async () => {
+            const percentage = parseFloat(offerPercentageInput.value);
+
+            // Validation
+            if (isNaN(percentage) || percentage <= 0 || percentage >= 100) {
+                alert('Please enter a valid percentage between 0 and 100');
+                return;
+            }
+
+            try {
+                // Send request to update offer
+                const response = await axios.post('/admin/update-offer', {
+                    productId,
+                    offer: percentage,
+                });
+
+                if (response.data.success) {
+                    window.location.reload()
+                    // Update UI based on response
+                    // const parentTd = button.closest('td');
+                    // if (parentTd) {
+                    //     const offerDisplay = parentTd.querySelector('.offerDisplay');
+                    //     const removeOfferBtn = parentTd.querySelector('.removeOfferBtn');
+
+                    //     if (offerDisplay) {
+                    //         offerDisplay.textContent = `${percentage}% OFF`;
+                    //         offerDisplay.classList.remove('hidden');
+                    //     }
+
+                    //     button.classList.add('hidden');
+
+                    //     if (removeOfferBtn) {
+                    //         removeOfferBtn.classList.remove('hidden');
+                    //     }
+                    // }
+
+                    // Hide modal
+                    addOfferModal.classList.add('hidden');
+                } else {
+                    alert('Failed to update the offer. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error updating offer:', error);
+                alert('An error occurred. Please try again.');
+            }
+        };
+    });
+});
+
+document.querySelectorAll('.removeOfferBtn').forEach((button) => {
+    button.addEventListener('click', async function () {
+        const productId = this.getAttribute('data-product-id'); // Get product ID
+        console.log(`Removing offer for product ID: ${productId}`);
+
+        try {
+            // Send request to remove the offer
+            const response = await axios.post('/admin/remove-offer', { productId });
+
+            if (response.data.success) {
+                // Update UI based on response
+
+                alert('Offer removed successfully!');
+                window.location.reload()
+            } else {
+                alert('Failed to remove the offer. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error removing offer:', error);
+            alert('An error occurred. Please try again.');
+        }
+    });
+});
+
+
+
+
+        // ....................................................................
+        // mukalil ullath ,anu old athanu thazthathu pole akendathu mukalil id vech ayirunuu athu patoola so class akanam ipo time ilaa pine cheyam,OK?
+        // .........................................................................
+// document.querySelectorAll('.addOfferBtn').forEach((button) => {
+//     button.addEventListener('click', function () {
+//         const productId = this.getAttribute('data-product-id'); // Get product ID from the button
+//         console.log(`Open modal for product ID: ${productId}`);
+        
+//         // Open the modal
+//         addOfferModal.classList.remove('hidden');
+
+//         // Optional: Use productId to fetch or display additional information in the modal
+//     });
+// });
+
+// // Confirm adding an offer
+// confirmAddOfferBtn.addEventListener('click', () => {
+//     const percentage = parseFloat(offerPercentageInput.value);
+//     if (isNaN(percentage) || percentage <= 0 || percentage >= 100) {
+//         alert('Please enter a valid percentage between 0 and 100');
+//         return;
+//     }
+
+//     // Example: Update the offer display
+//     const offerDisplay = document.querySelector(`[data-product-id="${productId}"]`).closest('td').querySelector('.offerDisplay');
+//     offerDisplay.textContent = `${percentage}% OFF`;
+//     offerDisplay.classList.remove('hidden');
+
+//     // Hide the modal
+//     addOfferModal.classList.add('hidden');
+// });
+
+// // Remove offer logic (if needed)
+// document.querySelectorAll('.removeOfferBtn').forEach((button) => {
+//     button.addEventListener('click', function () {
+//         const productId = this.getAttribute('data-product-id');
+//         console.log(`Remove offer for product ID: ${productId}`);
+
+//         // Example: Update the UI
+//         const offerDisplay = document.querySelector(`[data-product-id="${productId}"]`).closest('td').querySelector('.offerDisplay');
+//         offerDisplay.classList.add('hidden');
+//     });
+// });
+
     </script>
 </body>
 </html>

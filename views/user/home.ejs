@@ -21,14 +21,14 @@
                 <div class="slide-btn">
                   <a
                     class="btn theme-btn"
-                    href="shop.html"
+                    href="/shop"
                     data-animation="fadeInLeft"
                     data-delay=".6s"
                     >shop now</a
                   >
                   <a
                     class="btn white-btn"
-                    href="shop.html"
+                    href="/shop"
                     data-animation="fadeInRight"
                     data-delay=".9s"
                     >category</a
@@ -44,7 +44,7 @@
         data-background="img/slider/slide5-2.jpg"
       >
         <div class="shape-title shape-title-4 bounce-animate">
-          <h2>2024</h2>
+          <h2>2025</h2>
         </div>
         <div class="shape-icon shape-icon-4 bounce-animate">
           <img src="img/slider/shape-icon-2.png" alt="" />
@@ -59,14 +59,14 @@
                 <div class="slide-btn">
                   <a
                     class="btn theme-btn"
-                    href="shop.html"
+                    href="/shop"
                     data-animation="fadeInLeft"
                     data-delay=".6s"
                     >shop now</a
                   >
                   <a
                     class="btn white-btn"
-                    href="shop.html"
+                    href="/shop"
                     data-animation="fadeInRight"
                     data-delay=".9s"
                     >category</a
@@ -97,14 +97,14 @@
                 <div class="slide-btn">
                   <a
                     class="btn theme-btn"
-                    href="shop.html"
+                    href="/shop"
                     data-animation="fadeInLeft"
                     data-delay=".6s"
                     >shop now</a
                   >
                   <a
                     class="btn white-btn"
-                    href="shop.html"
+                    href="/shop"
                     data-animation="fadeInRight"
                     data-delay=".9s"
                     >category</a
@@ -125,29 +125,29 @@
       <div class="row">
         <div class="col-lg-6 col-md-12">
           <div class="banner-2 pos-relative mb-30">
-            <a href="shop.html"
+            <a href="/shop"
               ><img src="img/banner/banner-2/banner3.jpg" alt=""
             /></a>
             <div class="banner-trend">
               <span>Trendy Item</span>
-              <h2><a href="shop.html">New Year Trend Coming 2024</a></h2>
+              <h2><a href="/shop">New Year Trend Coming 2025</a></h2>
               <div class="discover-link">
-                <a href="shop.html">discover</a>
+                <a href="/shop">discover</a>
               </div>
             </div>
           </div>
         </div>
         <div class="col-lg-6 col-md-12">
           <div class="banner-2 pos-relative mb-30">
-            <a href="shop.html"
+            <a href="/shop"
               ><img src="img/banner/banner-2/banner4.jpg" alt=""
             /></a>
             <div class="banner-look">
               <span>Get the look</span>
               <h2>Festive Looks</h2>
-              <img src="img/icon/look.png" alt="" />
+             
               <p>Your delivery of outfit ideas, updated daily</p>
-              <a href="shop.html" class="btn theme-btn">discover</a>
+              <a href="/shop" class="btn theme-btn">discover</a>
             </div>
           </div>
         </div>
@@ -194,7 +194,7 @@
                   role="tab"
                   aria-controls="profile"
                   aria-selected="false"
-                  >Jeans</a
+                  >Jereceys</a
                 >
               </li>
               <li class="nav-item">
@@ -209,18 +209,7 @@
                   >Hoodie</a
                 >
               </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  id="contact-tab1"
-                  data-toggle="tab"
-                  href="#contact1"
-                  role="tab"
-                  aria-controls="contact"
-                  aria-selected="false"
-                  >Pants</a
-                >
-              </li>
+              
             </ul>
           </div>
         </div>
@@ -235,8 +224,8 @@
                 role="tabpanel"
                 aria-labelledby="home-tab"
               >
-                <div class="product-slider owl-carousel">
-                  <% for (let i = 0;  i < products.length; i++) { %>
+              <div class="product-slider owl-carousel">
+                <% for (let i = 0; i < products.length; i++) { %>
                   <div class="pro-item">
                     <div class="product-wrapper mb-50">
                       <div class="product-img mb-25">
@@ -245,62 +234,43 @@
                             src="/uploads/re-image/<%= products[i].productImage[0] %>"
                             alt="<%= products[i].productName %>"
                           />
-                          <!-- <% if (products[i].productImage[1]) { %> -->
-                          <img
-                            class="secondary-img"
-                            src="/uploads/re-image/<%= products[i].productImage[1] %>"
-                            alt="<%= products[i].productName %>"
-                          />
-                          <!-- <% } %> -->
+                          <% if (products[i].productImage[1]) { %>
+                            <img
+                              class="secondary-img"
+                              src="/uploads/re-image/<%= products[i].productImage[1] %>"
+                              alt="<%= products[i].productName %>"
+                            />
+                          <% } %>
                         </a>
-                        <div class="product-action text-center">
-                          <a href="#" title="Shopping Cart"
-                            ><i class="flaticon-shopping-cart"></i
-                          ></a>
-                          <a href="#" title="Quick View"
-                            ><i class="flaticon-eye"></i
-                          ></a>
-                          <a href="#" title="Compare"
-                            ><i class="flaticon-compare"></i
-                          ></a>
-                        </div>
+                       
                         <div class="sale-tag">
-                          <% if (products[i].isNew) { %>
-                          <span class="new">new</span>
-                          <% } %> <% if (products[i].isOnSale) { %>
-                          <span class="sale">sale</span>
+                          <% if (products[i].effectiveOffer > 0) { %>
+                            <span class="sale"><%= products[i].effectiveOffer %>% OFF</span>
                           <% } %>
                         </div>
                       </div>
                       <div class="product-content">
                         <div class="pro-cat mb-10">
-                          <a href="/productDetails?id=<%= products[i]._id %>"
-                            ><%= products[i].category.name %></a
-                          >
+                          <a href="/productDetails?id=<%= products[i]._id %>"><%= products[i].category.name %></a>
                         </div>
                         <h4>
-                          <a href="/productDetails?id=<%= products[i]._id %>"
-                            ><%= products[i].productName %></a
-                          >
+                          <a href="/productDetails?id=<%= products[i]._id %>"><%= products[i].productName %></a>
                         </h4>
                         <div class="product-meta">
                           <div class="pro-price">
-                            <span>$<%= products[i].salePrice %>.00</span>
-                            <span class="old-price"
-                              >$<%= products[i].regularPrice %>.00</span
-                            >
+                            <span>$<%= products[i].salePrice %></span>
+                            <% if (products[i].effectiveOffer > 0) { %>
+                              <span class="old-price">$<%= products[i].regularPrice %>.00</span>
+                            <% } %>
                           </div>
-                        </div>
-                        <div class="product-wishlist">
-                          <a href="/addToWishlist?id=<%= products[i]._id %>">
-                            <i class="far fa-heart" title="Wishlist"></i>
-                          </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <% } %>
-                </div>
+                <% } %>
+              </div>
+              
+              
               </div>
             </div>
           </div>

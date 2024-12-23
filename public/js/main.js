@@ -791,7 +791,6 @@ $('[data-countdown]').each(function () {
 
 
 
-
 /* Search
 
 -------------------------------------------------------*/
@@ -904,37 +903,54 @@ if ($("#slider-range").length) {
 
 $(".cart-plus-minus").append('<div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>');
 
-$(".qtybutton").on("click", function () {
+// Use event delegation to handle dynamically generated buttons
+$(document).on("click", ".qtybutton", async function () {
+  const $button = $(this);
+  const $input = $button.parent().find("input"); // Find the associated input
+  const oldValue = parseInt($input.val());
+  let newVal;
 
-	var $button = $(this);
+  const itemId = $input.data("item-id");
 
-	var oldValue = $button.parent().find("input").val();
 
-	if ($button.text() == "+") {
-
-		var newVal = parseFloat(oldValue) + 1;
-
+if ($button.hasClass("inc")) {
+	if (oldValue <5) {
+		newVal = oldValue + 1;
 	} else {
-
-		// Don't allow decrementing below zero
-
-		if (oldValue > 0) {
-
-			var newVal = parseFloat(oldValue) - 1;
-
-		} else {
-
-			newVal = 0;
-
-		}
-
+		newVal = oldValue; // Retain the current value
+		// alert("Maximum quantity reached!"); // Optional user feedback
+		
+			showErrorPopup("Maximum quantity reached!")
+		
 	}
+  } else {
+	newVal = Math.max(0, oldValue - 1); // Prevent quantity below 0
+  }
+  console.log("befor calling updateQuantity",newVal)
+  // Call the `updateQuantity` function to sync with the backend
+  const  response = await updateQuantity(itemId,newVal);
+console.log("after calling updateQuantity",response)
 
-	$button.parent().find("input").val(newVal);
 
+  // Increment or decrement value
+  if(response){
+	
+	  // Update the input value in the DOM
+	  $input.val(newVal);
+  }
+
+  // Retrieve the item ID from the input's data attribute
+  
 });
 
-
+function showErrorPopup(message) {
+    const errorPopup = document.getElementById('errorPopup');
+    errorPopup.innerText = message;
+    errorPopup.classList.add('show');
+    setTimeout(() => {
+        errorPopup.classList.remove('show');
+    }, 3000); // Display for 3 seconds
+}
 
 
 

@@ -7,7 +7,6 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="manifest" href="site.html" />
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
     <!-- Place favicon.ico in the root directory -->
 
@@ -30,109 +29,206 @@
     />
   </head>
   <style>
-  /* Keep the button and dropdown inline */
-li.login-btn {
+    /* Keep the button and dropdown inline */
+    li.login-btn {
+      position: relative;
+      display: inline-block;
+    }
+
+    .hover-image {
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .hover-image:hover {
+      transform: scale(1.1);
+    }
+
+    /* Message-style box */
+    .message-box {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #f9f9f9;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 15px;
+      z-index: 1000;
+      width: 200px;
+      text-align: left;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    /* Message-box item styles */
+    .message-box-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      transition: background-color 0.3s ease;
+    }
+
+    .message-box-item a {
+      text-decoration: none;
+      color: #333;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+    .message-box-item i {
+      color: #e23900;
+      font-size: 20px;
+    }
+
+    /* Hover effect for the message box items */
+    .message-box-item:hover {
+      background-color: #eef1f5;
+      border-radius: 5px;
+    }
+
+    /* Show the message-box on hover */
+    li.login-btn:hover .message-box {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    /* zooming style  */
+    .product-container {
+      position: relative;
+      width: 400px;
+    }
+
+    .product-large-img img {
+      width: 100%;
+      height: auto;
+    }
+
+    #zoom-lens {
+      position: absolute;
+      border: 1px solid #d4d4d4;
+      width: 100px;
+      height: 100px;
+      opacity: 0.4;
+      background-color: lightgray;
+      display: none;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    #zoom-result {
+      width: 650px;
+      height: 650px;
+      border: 1px solid #d4d4d4;
+      background-repeat: no-repeat;
+      background-size: 800px 800px; /* Adjust for zoom level */
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 600px; /* Adjust if you need it closer/further from the product image */
+      overflow: hidden; /* Ensure the zoomed image doesn’t exceed this area */
+      z-index: 1000;
+    }
+
+    .header-right ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.login-btn {
+  display: flex;
+  align-items: center;
   position: relative;
-  display: inline-block;
 }
 
-.hover-image {
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out;
+.login-btn a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 25px;
+  position: relative;
 }
 
-.hover-image:hover {
-  transform: scale(1.1);
-}
-
-/* Message-style box */
-.message-box {
-  display: none;
+.login-btn img.hover-image {
+  /* width: 24px; */
+  /* height: 24px; */
+  object-fit: contain;
   position: absolute;
-  top: 100%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  background-color: #f9f9f9;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  padding: 15px;
-  z-index: 1000;
-  width: 200px;
-  text-align: left;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
 }
 
-/* Message-box item styles */
+.message-box {
+  position: absolute;
+  top: calc(100% + 0px);
+  right: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  /* min-width: 160px; */
+  /* padding: 20px 0; */
+  z-index: 1000;
+  opacity: 1;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.login-btn:hover .message-box,
+.message-box:hover {
+  opacity: 1;
+  visibility: visible;
+}
+
 .message-box-item {
   display: flex;
   align-items: center;
-  padding: 10px 0;
-  transition: background-color 0.3s ease;
+  /* padding: 3px 0px; */
+  transition: background-color 0.2s ease;
+}
+
+.message-box-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.message-box-item i {
+  width: 20px;
+  margin-right: 12px;
+  color: #666;
 }
 
 .message-box-item a {
-  text-decoration: none;
   color: #333;
-  margin-left: 10px;
-  font-weight: bold;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+}
+
+.message-box::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 80px;
+  width: 13px;
+  height: 12px;
+  background-color: #fff;
+  transform: rotate(45deg);
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .message-box-item i {
   color: #e23900;
-  font-size: 20px;
-}
-
-/* Hover effect for the message box items */
-.message-box-item:hover {
-  background-color: #eef1f5;
-  border-radius: 5px;
-}
-
-/* Show the message-box on hover */
-li.login-btn:hover .message-box {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.3s ease-in-out;
-}
-
-/* zooming style  */
-.product-container {
-    position: relative;
-    width: 400px;
-}
-
-.product-large-img img {
-    width: 100%;
-    height: auto;
-}
-
-#zoom-lens {
-    position: absolute;
-    border: 1px solid #d4d4d4;
-    width: 100px;
-    height: 100px;
-    opacity: 0.4;
-    background-color: lightgray;
-    display: none;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-#zoom-result {
-    width: 650px;
-    height: 650px;
-    border: 1px solid #d4d4d4;
-    background-repeat: no-repeat;
-    background-size: 800px 800px; /* Adjust for zoom level */
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 600px; /* Adjust if you need it closer/further from the product image */
-    overflow: hidden; /* Ensure the zoomed image doesn’t exceed this area */
-    z-index: 1000;
 }
 
   </style>
@@ -170,51 +266,33 @@ li.login-btn:hover .message-box {
                 rel="stylesheet"
               />
               <div class="logo">
-                <span
-                  style="
-                    font-family: limelight;
-                    font-size: 40px;
-                    color: rgb(255, 255, 255);
-                  "
-                  >CUST</span
-                >
+                <a href="/">
+                  <span
+                    style="
+                      font-family: limelight;
+                      font-size: 40px;
+                      color: rgb(255, 255, 255);
+                    "
+                    >CUST</span
+                  >
+                </a>
               </div>
               <div class="category-menu">
                 <h4>Category</h4>
                 <ul>
                   <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Table lamp</a
+                    <a href="/shop"
+                      ><i class="flaticon-shopping-cart-1"></i>Hoodies</a
                     >
                   </li>
                   <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Furniture</a
+                    <a href="/shop"
+                      ><i class="flaticon-shopping-cart-1"></i>T-shirts</a
                     >
                   </li>
                   <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Chair</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Men</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Women</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Cloth</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Trend</a
+                    <a href="/shop"
+                      ><i class="flaticon-shopping-cart-1"></i>Jereceys</a
                     >
                   </li>
                 </ul>
@@ -225,170 +303,61 @@ li.login-btn:hover .message-box {
                 <nav id="mobile-menu">
                   <ul>
                     <li>
-                      <a href="index.html">Home</a>
-                      <ul class="submenu">
-                        <li>
-                          <a href="index.html">Home Style 1</a>
-                        </li>
-                        <li>
-                          <a href="index-2.html">Home Style 2</a>
-                        </li>
-                        <li>
-                          <a href="index-3.html">Home Style 3</a>
-                        </li>
-                        <li>
-                          <a href="index-4.html">Home Style 4</a>
-                        </li>
-                        <li>
-                          <a href="index-5.html">Home Style 5</a>
-                        </li>
-                      </ul>
+                      <a href="/" style="color: orangered">Home</a>
                     </li>
                     <li class="mega-menu">
-                      <a href="/shop">Shop</a>
-                      <ul class="submenu">
-                        <li>
-                          <a href="#">Category View</a>
-                          <ul class="submenu level-1">
-                            <li>
-                              <a href="shop.html">Shop 2 Column</a>
-                            </li>
-                            <li>
-                              <a href="shop-filter.html">Shop Filter Style</a>
-                            </li>
-                            <li>
-                              <a href="shop-full.html">Shop Full</a>
-                            </li>
-                            <li>
-                              <a href="shop-3-col.html">Shop 3 Column</a>
-                            </li>
-                            <li>
-                              <a href="shop-list.html">List View</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <a href="#">Category View</a>
-                          <ul class="submenu">
-                            <li>
-                              <a href="shop-left-sidebar.html">Sidebar Left</a>
-                            </li>
-                            <li>
-                              <a href="shop-sidebar-right.html"
-                                >Sidebar Right</a
-                              >
-                            </li>
-                            <li>
-                              <a href="cart.html">Shopping Cart</a>
-                            </li>
-                            <li>
-                              <a href="checkout.html">Checkout</a>
-                            </li>
-                            <li>
-                              <a href="wishlist.html">My Wishlist</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <a href="#">Products Types</a>
-                          <ul class="submenu">
-                            <li>
-                              <a href="product-simple.html">Simple Product</a>
-                            </li>
-                            <li>
-                              <a href="product-variable.html"
-                                >Variable Product</a
-                              >
-                            </li>
-                            <li>
-                              <a href="product-upcoming.html"
-                                >Product Upcoming</a
-                              >
-                            </li>
-                            <li>
-                              <a href="product-up-thumb.html"
-                                >Thumb Top Product</a
-                              >
-                            </li>
-                            <li>
-                              <a href="product-sidebar.html">Product Sidebar</a>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
+                      <a href="/shop" style="color: orangered">Shop</a>
                     </li>
                     <!-- <li>
                       <a href="shop-filter.html">Products </a>
                     </li> -->
                     <li>
-                      <a href="blog.html">Blog</a>
+                      <a href="/" style="color: orangered">Account</a>
                       <ul class="submenu">
                         <li>
-                          <a href="blog-2-col.html">Blog 2 Column</a>
+                          <a href="/profile">Profile</a>
                         </li>
                         <li>
-                          <a href="blog-2-col-mas.html">Blog 2 Col Masonry</a>
+                          <a href="/orders">Orders</a>
                         </li>
                         <li>
-                          <a href="blog-3-col.html">Blog 3 Column</a>
+                          <a href="/address">Address</a>
                         </li>
                         <li>
-                          <a href="blog-3-col-mas.html">Blog 3 Col Masonry</a>
+                          <a href="/account">Account</a>
                         </li>
                         <li>
-                          <a href="blog-details.html">Blog Details</a>
+                          <a href="/wishlist">Wishlist</a>
                         </li>
                         <li>
-                          <a href="blog-details-audio.html"
-                            >Blog Details Audio</a
-                          >
+                          <a href="/wallet">Wallet</a>
                         </li>
                         <li>
-                          <a href="blog-details-video.html"
-                            >Blog Details Video</a
-                          >
-                        </li>
-                        <li>
-                          <a href="blog-details-gallery.html"
-                            >Blog Details Gallery</a
-                          >
-                        </li>
-                        <li>
-                          <a href="blog-details-left-sidebar.html"
-                            >Details Left Sidebar</a
-                          >
+                          <a href="/logout">Logout</a>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <a href="#">Pages</a>
+                      <a href="#" style="color: orangered">Pages</a>
                       <ul class="submenu">
                         <li>
-                          <a href="about.html">About Us</a>
-                        </li>
-
-                        <li>
-                          <a href="contact.html">Contact Us</a>
+                          <a href="/shop">shop</a>
                         </li>
                         <li>
-                          <a href="/signup">login</a>
+                          <a href="/wishlist">Wishlist</a>
                         </li>
                         <li>
-                          <a href="register.html">Register</a>
+                          <a href="/cart">Cart</a>
                         </li>
                         <li>
-                          <a href="cart.html">Shoping Cart</a>
-                        </li>
-                        <li>
-                          <a href="checkout.html">Checkout</a>
-                        </li>
-                        <li>
-                          <a href="wishlist.html">Wishlist</a>
+                          <a href="/signup">Login</a>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <a href="contact.html">Contact</a>
+                      <a href="contact.html" style="color: orangered"
+                        >Contact</a
+                      >
                     </li>
                   </ul>
                 </nav>
@@ -398,140 +367,50 @@ li.login-btn:hover .message-box {
               <div class="header-right f-right">
                 <ul>
                   <li class="search-btn">
-                    <a class="search-btn nav-search search-trigger" href="#"
-                      ><i class="fas fa-search"></i
-                    ></a>
+                    <a class="search-btn nav-search search-trigger" href="/shop"><i class="fas fa-search"></i></a>
                   </li>
-                   <%if(user){%>
-                    <li class="login-btn">
-                      <a href="/signup">
-                        <img
-                          src="img/power-switch (1).png"
-                          class="hover-image"
-                          style="font-size: 36px; width: auto; height: auto;"
-                          alt="loading"
-                        />
-                      </a>
-                       <!-- Message-style box  -->
-                      <div class="message-box">
-                        <div class="message-box-item">
-                          <i class="fa fa-user-circle"></i>
-                          <a href="/profile">Profile</a>
-                        </div>
-                        <div class="message-box-item">
-                          <i class="fa fa-cog"></i>
-                          <a href="/settings">Settings</a>
-                        </div>
-                        <div class="message-box-item">
-                          <i class="fa fa-sign-out"></i>
-                          <a href="/logout">Logout</a>
-                        </div>
+                  <%if (typeof user !== 'undefined' && user && !user.isBlocked) {%>
+                  <li class="login-btn">
+                    <a href="#" aria-haspopup="true" aria-expanded="false">
+                      <img
+                        src="img/power-switch (1).png"
+                        class="hover-image"
+                        alt="User menu"
+                      />
+                    </a>
+                    <div class="message-box" role="menu">
+                      <div class="message-box-item" role="menuitem">
+                        <i class="fa fa-user-circle" aria-hidden="true" style="color: #e23900;"></i>
+                        <a href="/profile">Profile</a>
                       </div>
-                    </li> 
-                    
-                   <%}else{%>
+                      <div class="message-box-item" role="menuitem">
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                        <a href="/settings">Settings</a>
+                      </div>
+                      <div class="message-box-item" role="menuitem">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        <a href="/logout">Logout</a>
+                      </div>
+                      <div class="message-box-item" role="menuitem">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        <a href="/wishlist">Wishlist</a>
+                      </div>
+                    </div>
+                  </li>
+                  <%}else{%>
                   <li class="login-btn">
                     <a href="/signup"><i class="far fa-user"></i></a>
                   </li>
-
                   <% }%>
                   <li class="d-shop-cart">
-                    <a href="#"
-                      ><i class="flaticon-shopping-cart"></i>
-                      <span class="cart-count">3</span></a
-                    >
-                    <ul class="minicart">
-                      <li>
-                        <div class="cart-img">
-                          <a href="product-details.html">
-                            <img src="img/product/pro1.jpg" alt="" />
-                          </a>
-                        </div>
-                        <div class="cart-content">
-                          <h3>
-                            <a href="product-details.html"
-                              >Black & White Shoes</a
-                            >
-                          </h3>
-                          <div class="cart-price">
-                            <span class="new">$ 229.9</span>
-                            <span>
-                              <del>$239.9</del>
-                            </span>
-                          </div>
-                        </div>
-                        <div class="del-icon">
-                          <a href="#">
-                            <i class="far fa-trash-alt"></i>
-                          </a>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="cart-img">
-                          <a href="product-details.html">
-                            <img src="img/product/pro2.jpg" alt="" />
-                          </a>
-                        </div>
-                        <div class="cart-content">
-                          <h3>
-                            <a href="product-details.html"
-                              >Black & White Shoes</a
-                            >
-                          </h3>
-                          <div class="cart-price">
-                            <span class="new">$ 229.9</span>
-                            <span>
-                              <del>$239.9</del>
-                            </span>
-                          </div>
-                        </div>
-                        <div class="del-icon">
-                          <a href="#">
-                            <i class="far fa-trash-alt"></i>
-                          </a>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="cart-img">
-                          <a href="product-details.html">
-                            <img src="img/product/pro3.jpg" alt="" />
-                          </a>
-                        </div>
-                        <div class="cart-content">
-                          <h3>
-                            <a href="product-details.html"
-                              >Black & White Shoes</a
-                            >
-                          </h3>
-                          <div class="cart-price">
-                            <span class="new">$ 229.9</span>
-                            <span>
-                              <del>$239.9</del>
-                            </span>
-                          </div>
-                        </div>
-                        <div class="del-icon">
-                          <a href="#">
-                            <i class="far fa-trash-alt"></i>
-                          </a>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="total-price">
-                          <span class="f-left">Total:</span>
-                          <span class="f-right">$300.0</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="checkout-link">
-                          <a href="cart.html">Shopping Cart</a>
-                          <a class="red-color" href="checkout.html">Checkout</a>
-                        </div>
-                      </li>
-                    </ul>
+                    <a href="/cart"><i class="flaticon-shopping-cart"></i>
+                      <span class="cart-count" style="display: none;"></span></a>
                   </li>
                 </ul>
               </div>
+              
+               
+              
             </div>
             <div class="col-12 d-xl-none">
               <div class="mobile-menu"></div>

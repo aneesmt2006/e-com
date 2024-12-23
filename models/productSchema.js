@@ -28,13 +28,12 @@ const productSchema = new Schema({
         type:Number,
         default:0,
     },
-    quantity:{
-        type:Number,
-        default:true
-    },
-    size:{
-        type:String,
-        required:true
+    sizes: {
+        S: { type: Number, default: 0 },
+        M: { type: Number, default: 0 },
+        L: { type: Number, default: 0 },
+        XL: { type: Number, default: 0 },
+        XXL: { type: Number, default: 0 }
     },
     material:{
         type:String,
@@ -47,10 +46,6 @@ const productSchema = new Schema({
     wash:{
         type:String,
         required:true,
-    },
-    color: {
-        type:String,
-        required:false
     },
     productImage:{
         type:[String],
